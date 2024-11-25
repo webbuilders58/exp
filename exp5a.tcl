@@ -4,7 +4,7 @@ set tr [open out.tr w]
 $ns namtrace-all $nf
 $ns trace-all $tr 
 proc finish {} {
-       	global nf ns tr
+    global nf ns tr
 	$ns flush-trace 
 	close $tr 
 	exec nam out.nam &
@@ -23,17 +23,20 @@ $ns duplex-link-op $n2 $n1 orient right-up
 set tcp [new Agent/TCP]
 $ns attach-agent $n0 $tcp
 set ftp [new Application/FTP]
-$ftp attach-agent $tcp
 set sink [new Agent/TCPSink]
 $ns attach-agent $n3 $sink 
+$ftp attach-agent $tcp
+$ns connect $tcp $sink
+
 set udp [new Agent/UDP]
 $ns attach-agent $n2 $udp
-set cbr [new Application/Traffic/CBR]
-$cbr attach-agent $udp 
 set null [new Agent/Null] 
 $ns attach-agent $n3 $null
-$ns connect $tcp $sink
+
+set cbr [new Application/Traffic/CBR]
+$cbr attach-agent $udp 
 $ns connect $udp $null
+
 $ns rtmodel-at 1.0 down $n1 $n3
 $ns rtmodel-at 2.0 up $n1 $n3
 $ns rtproto LS

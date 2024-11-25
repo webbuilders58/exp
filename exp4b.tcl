@@ -5,7 +5,7 @@ $ns namtrace-all $nf
 set tf [open out.tr w]
 $ns trace-all $tf
 proc finish {} {
-       	global ns nf tf
+    global ns nf tf
 	$ns flush-trace 
 	close $nf
 	close $tf
